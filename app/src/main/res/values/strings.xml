@@ -1,3 +1,34 @@
 <resources>
     <string name="app_name">TestOnlineStore</string>
+    <string name="description_click_input1">Нажимая кнопку “Войти”, Вы принимаете</string>
+    <string name="description_click_input2">условия программы лояльности</string>
+    <string name="input">Вход</string>
+    <string name="name">Имя</string>
+    <string name="surname">Фамилия</string>
+    <string name="number">Номер телефона</string>
+    <string name="come">Войти</string>
+    <string name="catalog">Каталог</string>
+    <string name="on_famous">По популярности</string>
+    <string name="face">Лицо</string>
+    <string name="body">Тело</string>
+    <string name="home">Главная</string>
+    <string name="card">Корзина</string>
+    <string name="discount">Скидка</string>
+    <string name="account">Профиль</string>
+    <string name="characteristics">Характеристики</string>
+    <string name="structure">Состав</string>
+    <string name="add_card">Добавить корзину</string>
+    <string name="favorite">Избранное</string>
+    <string name="shop">Магазины</string>
+    <string name="feedback">Обратная связь</string>
+    <string name="offer">Оферта</string>
+    <string name="return_item">Возврат товара</string>
+    <string name="hide">Скрыть</string>
+    <string name="detailed">Подробнее</string>
+
+//Content description
+    <string name="clear_input">Очистить ввод</string>
+
+
+
 </resources>

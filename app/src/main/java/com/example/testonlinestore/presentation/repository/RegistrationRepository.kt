@@ -4,6 +4,6 @@ import com.example.testonlinestore.domain.model.registration.UserAccount
 
 interface RegistrationRepository {
 
-    fun createUser(userAccount : UserAccount) : UserAccount
+   suspend fun createUser(userAccount : UserAccount)
 
 }
