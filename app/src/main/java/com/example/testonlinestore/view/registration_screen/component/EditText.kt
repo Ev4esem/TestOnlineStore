@@ -1,6 +1,5 @@
 package com.example.testonlinestore.view.registration_screen.component
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -22,16 +21,10 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -40,26 +33,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.testonlinestore.R
-import com.example.testonlinestore.view.registration_screen.RegistrationViewModel
-import com.example.testonlinestore.view.registration_screen.RegistrationViewState
 
-
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-@OptIn(ExperimentalMaterial3Api::class)
-@Preview
-@Composable
-fun LogInScreen() {
-
-    Scaffold(
-        topBar = { TopBarText() },
-        content = { EditTextPrev() },
-        bottomBar = { BottomBarText() }
-    )
-
-
-}
 
 @Composable
 fun TopBarText(modifier : Modifier = Modifier) {
@@ -108,22 +83,21 @@ fun BottomBarText(modifier : Modifier = Modifier) {
 @Composable
 fun InputName(
     modifier : Modifier = Modifier,
-    viewModel : RegistrationViewModel = hiltViewModel()
+    name : String,
+    onNameChange : (String) -> Unit
 ) {
 
-    val registrationViewState by viewModel.registrationViewState.observeAsState()
 
     TextField(
-        value = registrationViewState?.name ?: "",
+        value = name,
         onValueChange = { userInput ->
-            viewModel.clearInput("name",userInput)
+            onNameChange(userInput)
         },
         trailingIcon = {
 
-
-            if (registrationViewState?.name?.isNotEmpty() == true) {
+            if (name.isNotEmpty()) {
                 IconButton(
-                    onClick = { viewModel.clearInput("name","") }
+                    onClick = { onNameChange("") }
                 ) {
                     Icon(
                         imageVector = Icons.Filled.Close,
@@ -132,13 +106,11 @@ fun InputName(
                 }
             }
 
-
-
         },
         label = {
-                Text("Имя")
+            Text("Имя")
         },
-        isError = registrationViewState?.name.isNullOrEmpty(),
+        isError = name.isEmpty(),
         modifier = modifier
             .width(343.dp)
             .height(51.dp)
@@ -147,31 +119,29 @@ fun InputName(
         maxLines = 1
 
     )
-    
+
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun InputSurname(
     modifier : Modifier = Modifier,
+    surname : String,
+    onSurnameChange : (String) -> Unit
 ) {
-
-    var surname by remember {
-        mutableStateOf("")
-    }
 
 
     TextField(
         value = surname,
         onValueChange = { userInput ->
-            surname = userInput
+            onSurnameChange(userInput)
         },
         trailingIcon = {
 
 
             if (surname.isNotEmpty()) {
                 IconButton(
-                    onClick = { surname = "" }
+                    onClick = { onSurnameChange("") }
                 ) {
                     Icon(
                         imageVector = Icons.Filled.Close,
@@ -179,7 +149,6 @@ fun InputSurname(
                     )
                 }
             }
-
 
 
         },
@@ -195,26 +164,21 @@ fun InputSurname(
     )
 
 }
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun InputNumber(
     modifier : Modifier = Modifier,
-    viewModel : RegistrationViewModel = hiltViewModel()
+    number : String,
+    onNumberChange : (String) -> Unit
 ) {
-
-    var number by remember {
-        mutableStateOf("")
-    }
 
 
     TextField(
         value = number,
         onValueChange = { userInput ->
             if (userInput.length <= 11) {
-                number = userInput
-            }
-            if (number.isEmpty()) {
-
+                onNumberChange(userInput)
             }
         },
         trailingIcon = {
@@ -222,7 +186,7 @@ fun InputNumber(
 
             if (number.isNotEmpty()) {
                 IconButton(
-                    onClick = { number = "" }
+                    onClick = { onNumberChange("") }
                 ) {
                     Icon(
                         imageVector = Icons.Filled.Close,
@@ -232,13 +196,12 @@ fun InputNumber(
             }
 
 
-
         },
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
         label = {
             Text("Номер телефона")
         },
-        isError = number.length != 11 ,
+        isError = number.length != 11,
         modifier = modifier
             .width(343.dp)
             .height(51.dp)
@@ -252,29 +215,41 @@ fun InputNumber(
 @Composable
 fun CreateUserAccountButton(
     modifier : Modifier = Modifier,
-    viewModel : RegistrationViewModel = hiltViewModel()
+    name : String,
+    surname : String,
+    number : String,
+    onCreateUserClick : () -> Unit,
 ) {
+
+    val isButtonEnabled = remember(name, surname, number) {
+        name.isNotEmpty() && surname.isNotEmpty() && number.isNotEmpty()
+    }
 
     Button(
 
         onClick = {
+            onCreateUserClick()
 
         },
+        enabled = isButtonEnabled,
         modifier = modifier
             .width(343.dp)
-            .height(51.dp)
-            .clip(RoundedCornerShape(5.dp)),
-        shape = ButtonDefaults.shape,
-        colors = ButtonDefaults.buttonColors(colorResource(R.color.pink))
+            .height(51.dp),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = colorResource(R.color.pink),
+            disabledContainerColor = colorResource(R.color.light_pink)
+
+        ),
+        shape = MaterialTheme.shapes.medium
     ) {
         Text(text = stringResource(R.string.come))
     }
 
 }
 
-@Preview
 @Composable
-fun EditTextPrev() {
+fun ContentRegistration() {
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -283,13 +258,20 @@ fun EditTextPrev() {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        InputName()
+        InputName(name = "", onNameChange = {})
         Spacer(modifier = Modifier.height(16.dp))
-        InputSurname()
+        InputSurname(surname = "", onSurnameChange = { })
         Spacer(modifier = Modifier.height(16.dp))
-        InputNumber()
+        InputNumber(number = "", onNumberChange = {})
         Spacer(modifier = Modifier.height(32.dp))
-        CreateUserAccountButton()
+        CreateUserAccountButton(name = "", number = "", surname = "", onCreateUserClick = { })
     }
+
+}
+
+@Preview
+@Composable
+fun EditTextPrev() {
+    ContentRegistration()
 
 }

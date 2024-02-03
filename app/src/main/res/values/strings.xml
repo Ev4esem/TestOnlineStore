@@ -25,6 +25,8 @@
     <string name="return_item">Возврат товара</string>
     <string name="hide">Скрыть</string>
     <string name="detailed">Подробнее</string>
+    <string name="personal_office">Личный кабинет</string>
+    <string name="exit">Выход</string>
 
 //Content description
     <string name="clear_input">Очистить ввод</string>

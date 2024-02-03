@@ -1,8 +1,9 @@
-package com.example.testonlinestore.domain.di.registration
+package com.example.testonlinestore.domain.di
 
 import android.content.Context
 import androidx.room.Room
 import com.example.testonlinestore.domain.database.AccountDao
+import com.example.testonlinestore.domain.database.CardDao
 import com.example.testonlinestore.domain.database.MainDataBase
 import dagger.Module
 import dagger.Provides
@@ -29,5 +30,8 @@ class DataBaseModule {
     @Singleton
     fun provideAccountDao(mainDataBase : MainDataBase) : AccountDao = mainDataBase.accountDao()
 
+    @Provides
+    @Singleton
+    fun provideCardDao(mainDataBase : MainDataBase) : CardDao = mainDataBase.cardDao()
 
 }

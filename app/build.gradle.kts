@@ -16,9 +16,15 @@ android {
         versionCode = 1
         versionName = "1.0"
 
+
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true
+        }
+    }
+    kapt {
+        arguments {
+            arg("room.schemaLocation","$projectDir/schema")
         }
     }
 
@@ -58,13 +64,14 @@ dependencies {
     val gson = "2.9.0"
     val glide = "4.12.0"
     val glideCompiler = "4.12.0"
-    val hilt_version = "2.40"
+    val hilt_version = "2.48"
     val compose_version = "1.6.0-rc01"
 
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
 
-
+    //ViewModel
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
     //Compose
     implementation ("androidx.compose.runtime:runtime-livedata:$compose_version")
     implementation("androidx.activity:activity-compose:1.8.2")
