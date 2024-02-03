@@ -21,7 +21,7 @@ class DataBaseModule {
         Room.databaseBuilder(
             context.applicationContext,
             MainDataBase::class.java,
-            "main_database"
+            "main_database.db"
         )
             .build()
 
