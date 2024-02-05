@@ -235,6 +235,7 @@ fun ButtonExit(
 fun OtherCard(
     drawable : Int,
     text : Int,
+    color : Int = R.color.black,
     contentDescription : Int,
     modifier : Modifier = Modifier
 ) {
@@ -256,7 +257,8 @@ fun OtherCard(
             Icon(
                 painter = painterResource(drawable),
                 contentDescription = stringResource(contentDescription),
-                modifier = Modifier.padding(10.dp)
+                modifier = Modifier.padding(10.dp),
+                tint = colorResource(id = color)
             )
 
 
@@ -309,6 +311,7 @@ fun ContentProfile(
             drawable = R.drawable.shop,
             text = R.string.shop,
             contentDescription = R.string.shop,
+            color = R.color.pink,
             modifier = Modifier.padding(top = 8.dp)
         )
        // Spacer(modifier = modifier.padding(top = 8.dp))
@@ -316,6 +319,7 @@ fun ContentProfile(
             drawable = R.drawable.feedback,
             text = R.string.feedback,
             contentDescription = R.string.feedback,
+            color = R.color.orange,
             modifier = Modifier.padding(top = 8.dp)
         )
        // Spacer(modifier = modifier.padding(top = 8.dp))
@@ -323,12 +327,14 @@ fun ContentProfile(
             drawable = R.drawable.offer_icon,
             text = R.string.offer,
             contentDescription = R.string.offer,
+            color = R.color.grey,
             modifier = Modifier.padding(top = 8.dp)
         )
         OtherCard(
             drawable = R.drawable.action_back,
             text = R.string.return_item,
             contentDescription = R.string.return_item,
+            color = R.color.grey,
             modifier = Modifier.padding(top = 8.dp)
         )
         Spacer(modifier = modifier.padding(top = 10.dp))

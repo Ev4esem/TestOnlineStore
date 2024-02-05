@@ -66,6 +66,7 @@ dependencies {
     val glideCompiler = "4.12.0"
     val hilt_version = "2.48"
     val compose_version = "1.6.0-rc01"
+    val paging_version = "0.13.0"
 
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
@@ -110,8 +111,9 @@ dependencies {
     //Navigation
     implementation("androidx.navigation:navigation-compose:$nav_version")
 
-    
-
+    //Paging Compose
+    implementation("com.google.accompanist:accompanist-pager:$paging_version")
+    implementation("com.google.accompanist:accompanist-pager-indicators:$paging_version")
 
     androidTestImplementation(platform("androidx.compose:compose-bom:2023.03.00"))
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")

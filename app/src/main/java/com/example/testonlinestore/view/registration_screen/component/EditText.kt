@@ -242,7 +242,10 @@ fun CreateUserAccountButton(
         ),
         shape = MaterialTheme.shapes.medium
     ) {
-        Text(text = stringResource(R.string.come))
+        Text(
+            text = stringResource(R.string.come),
+            color = colorResource(R.color.white)
+            )
     }
 
 }

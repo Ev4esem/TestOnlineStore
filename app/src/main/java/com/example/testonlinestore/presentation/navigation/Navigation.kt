@@ -9,6 +9,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.testonlinestore.view.catalog_screen.CatalogScreen
 import com.example.testonlinestore.view.profile_screen.ProfileScreen
 import com.example.testonlinestore.view.registration_screen.LogInScreen
 import com.example.testonlinestore.view.registration_screen.RegistrationViewModel
@@ -35,7 +36,7 @@ fun Navigation(
             }
 
             composable(route = Screen.CatalogScreen.route) {
-                //CatalogScreen()
+                CatalogScreen(navController = navController)
             }
 
             composable(route = Screen.CardScreen.route) {

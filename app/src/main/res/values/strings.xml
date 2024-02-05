@@ -27,6 +27,13 @@
     <string name="detailed">Подробнее</string>
     <string name="personal_office">Личный кабинет</string>
     <string name="exit">Выход</string>
+    <string name="sort">Сортировка</string>
+    <string name="popularity">По популярности</string>
+    <string name="price_low_to_high">По возрастанию цены</string>
+    <string name="price_high_to_low">По уменьшению цены</string>
+    <string name="filters">Фильтры</string>
+
+
 
 //Content description
     <string name="clear_input">Очистить ввод</string>
