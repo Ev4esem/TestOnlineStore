@@ -10,6 +10,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.testonlinestore.view.catalog_screen.CatalogScreen
+import com.example.testonlinestore.view.details_screen.DetailsScreen
 import com.example.testonlinestore.view.profile_screen.ProfileScreen
 import com.example.testonlinestore.view.registration_screen.LogInScreen
 import com.example.testonlinestore.view.registration_screen.RegistrationViewModel
@@ -45,6 +46,11 @@ fun Navigation(
 
             composable(route = Screen.DiscountScreen.route) {
                 //DiscountScreen()
+            }
+            composable(route = Screen.DetailsScreen.route + "/{$PRODUCT_ID}") { backStackEntry ->
+                viewModel.isBottomNavBarVisible = false
+                val catalogId = backStackEntry.arguments?.getString(PRODUCT_ID)
+                DetailsScreen(navController = navController, catalogId = catalogId ?: "")
             }
 
             composable(

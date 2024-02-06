@@ -10,6 +10,7 @@ import com.example.testonlinestore.presentation.use_case.profile.ItemCountUseCas
 import com.example.testonlinestore.presentation.use_case.profile.RemoveAccountUseCase
 import com.example.testonlinestore.utils.SharedPref
 import com.example.testonlinestore.utils.SharedPref.DEFAULT_VALUE_USER_ID
+import com.example.testonlinestore.utils.removeUserId
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow

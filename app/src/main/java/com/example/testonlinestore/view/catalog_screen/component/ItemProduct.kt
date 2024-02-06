@@ -356,7 +356,7 @@ fun ListProduct(
                 key = { catalog -> catalog.id + key }
                 ) { catalog ->
                 Item(catalog = catalog,
-                    onItemClick = { navController.navigate(Screen.DetailsScreen.route) }
+                    onItemClick = { navController.navigate(Screen.DetailsScreen.route + "/${catalog.id}") }
                 )
             }
         },
@@ -368,27 +368,13 @@ fun ListProduct(
 @ExperimentalPagerApi
 @Composable
 fun ViewPagerSlider(
-    //viewModel : CatalogViewModel = hiltViewModel()
+    viewModel : CatalogViewModel = hiltViewModel()
 ) {
-   // val imageProduct = viewModel.getImageProducts()
-    
-    val list =  listOf(
-        ImageProduct(
-            image = R.drawable.image_product
-        ),
-        ImageProduct(
-            image = R.drawable.image_product4
-        ),
-        ImageProduct(
-            image = R.drawable.image_product2
-        ),
-        ImageProduct(
-            image = R.drawable.image_product3
-        ),
-    )
-    
+    val imageProduct = viewModel.getImageProducts()
+
+
     val pagerState = rememberPagerState(
-        pageCount = list.size,
+        pageCount = imageProduct.size,
         initialPage = 0
     )
     Box {
@@ -401,9 +387,9 @@ fun ViewPagerSlider(
 
             ) { index ->
 
-            if (index in list.indices) {
+            if (index in imageProduct.indices) {
                 Image(
-                    painter = painterResource(id = list[index].image),
+                    painter = painterResource(id = imageProduct[index].image),
                     contentDescription = null,
                     contentScale = ContentScale.Crop,
                     modifier = Modifier.fillMaxSize()

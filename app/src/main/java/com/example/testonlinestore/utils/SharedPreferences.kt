@@ -2,7 +2,6 @@ package com.example.testonlinestore.utils
 
 import android.content.Context
 
-// todo При дважды введеных одинаковых данных UserData() не отображается ,исправить баг
 fun saveUserId(context: Context, userId: String) {
     val sharedPref =
         context.getSharedPreferences(SharedPref.PREFERENCE_FILE_KEY, Context.MODE_PRIVATE)

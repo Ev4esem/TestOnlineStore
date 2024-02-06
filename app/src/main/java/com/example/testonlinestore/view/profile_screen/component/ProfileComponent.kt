@@ -36,11 +36,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.testonlinestore.R
 import com.example.testonlinestore.domain.model.registration.UserAccount
-import com.example.testonlinestore.presentation.navigation.NAME_USER
-import com.example.testonlinestore.presentation.navigation.NUMBER_USER
-import com.example.testonlinestore.presentation.navigation.SURNAME_USER
 import com.example.testonlinestore.presentation.navigation.Screen
-import com.example.testonlinestore.view.profile_screen.ProfileScreen
 import com.example.testonlinestore.view.profile_screen.ProfileViewModel
 
 @Composable

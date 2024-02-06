@@ -2,10 +2,7 @@ package com.example.testonlinestore.presentation.navigation
 
 import com.example.testonlinestore.R
 
-const val USER_ID = "user_id"
-const val NAME_USER = "name"
-const val SURNAME_USER = "surname"
-const val NUMBER_USER = "number"
+const val PRODUCT_ID = "catalogId"
 
 object Constants {
 

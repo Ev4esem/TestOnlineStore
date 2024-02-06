@@ -161,7 +161,7 @@ fun InputSurname(
             .height(51.dp)
             .clip(RoundedCornerShape(10.dp)),
         maxLines = 1
-    )
+)
 
 }
 
@@ -222,7 +222,7 @@ fun CreateUserAccountButton(
 ) {
 
     val isButtonEnabled = remember(name, surname, number) {
-        name.isNotEmpty() && surname.isNotEmpty() && number.isNotEmpty()
+        name.isNotEmpty() && surname.isNotEmpty() && number.length == 11 && number.isNotEmpty()
     }
 
     Button(
