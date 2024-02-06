@@ -20,7 +20,9 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.icons.Icons
@@ -38,6 +40,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -59,11 +62,13 @@ import com.example.testonlinestore.domain.model.catalog.Catalog
 import com.example.testonlinestore.domain.model.catalog.CatalogList
 import com.example.testonlinestore.domain.model.catalog.Feedback
 import com.example.testonlinestore.domain.model.catalog.Price
+import com.example.testonlinestore.domain.model.favorite.CardItem
 import com.example.testonlinestore.presentation.navigation.Screen
 import com.example.testonlinestore.utils.ProgressBar
 import com.example.testonlinestore.utils.Resource
 import com.example.testonlinestore.utils.SortOption
 import com.example.testonlinestore.view.catalog_screen.CatalogViewModel
+import com.example.testonlinestore.view.favorite_screen.FavoriteViewModel
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
@@ -73,7 +78,8 @@ import com.google.accompanist.pager.rememberPagerState
 fun Item(
     modifier : Modifier = Modifier,
     catalog : Catalog,
-    onItemClick : ((Catalog) -> Unit)? = null
+    onItemClick : ((Catalog) -> Unit)? = null,
+    viewModel : FavoriteViewModel = hiltViewModel()
     ) {
 
 
@@ -101,6 +107,9 @@ fun Item(
     }
     val discount by remember {
         mutableStateOf(catalog.price.discount)
+    }
+    var selectedFavoriteButton by rememberSaveable {
+        mutableStateOf(false)
     }
 
 
@@ -131,11 +140,39 @@ fun Item(
 
             IconButton(
 
-                onClick = { /*TODO*/ },
+                onClick = {
+                    selectedFavoriteButton = !selectedFavoriteButton
+                    val cardItem = CardItem(
+                        id = catalog.id,
+                        count = count,
+                        rating = rating,
+                        discount = discount,
+                        price = price,
+                        priceWithDiscount = priceWithDiscount,
+                        unit = unit,
+                        subtitle = subtitle,
+                        title = title
+                    )
+                    if (selectedFavoriteButton) {
+                        viewModel.insertCardItem(cardItem)
+
+                    } else {
+                        viewModel.deleteCardItem(cardItem)
+                    }
+
+
+
+                  },
                 modifier = modifier.align(Alignment.TopEnd)
             ) {
                 Icon(
-                    painter = painterResource(R.drawable.heart_icon),
+                    painter = painterResource(
+                        if (selectedFavoriteButton) {
+                            R.drawable.heart_fill_icon
+                        } else {
+                            R.drawable.heart_icon
+                        }
+                    ),
                     contentDescription = stringResource(R.string.favorite),
                     tint = colorResource(id = R.color.pink)
                 )
@@ -347,8 +384,11 @@ fun ListProduct(
     key : Int
 ) {
 
+    val listState = rememberLazyGridState()
+
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
+        state = listState,
 
         content = {
             items(
@@ -410,7 +450,9 @@ fun TopBarText() {
 
     Row(
         horizontalArrangement = Arrangement.Center,
-        modifier = Modifier.fillMaxWidth().padding(top = 15.dp, bottom = 15.dp)
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 15.dp, bottom = 15.dp)
     ) {
         Text(
             text = stringResource(R.string.catalog),
@@ -437,7 +479,9 @@ fun CatalogScreenContent(
 
     Column {
         Row(
-            modifier = Modifier.fillMaxWidth().padding(bottom = 10.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 10.dp),
             horizontalArrangement = Arrangement.SpaceBetween
 
         ) {

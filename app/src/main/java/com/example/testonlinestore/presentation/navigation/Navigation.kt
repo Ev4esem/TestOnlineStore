@@ -11,6 +11,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.testonlinestore.view.catalog_screen.CatalogScreen
 import com.example.testonlinestore.view.details_screen.DetailsScreen
+import com.example.testonlinestore.view.favorite_screen.FavoriteScreen
 import com.example.testonlinestore.view.profile_screen.ProfileScreen
 import com.example.testonlinestore.view.registration_screen.LogInScreen
 import com.example.testonlinestore.view.registration_screen.RegistrationViewModel
@@ -41,9 +42,10 @@ fun Navigation(
             }
 
             composable(route = Screen.CardScreen.route) {
-                //CardScreen()
             }
-
+            composable(route = Screen.FavoriteScreen.route) {
+                FavoriteScreen()
+            }
             composable(route = Screen.DiscountScreen.route) {
                 //DiscountScreen()
             }

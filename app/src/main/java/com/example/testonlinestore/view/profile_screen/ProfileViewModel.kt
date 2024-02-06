@@ -34,9 +34,7 @@ class ProfileViewModel @Inject constructor (
 
     init {
         viewModelScope.launch {
-            itemCountUseCase.getItemCountFlow().collect {
-                _count.value = it
-            }
+            _count.value = itemCountUseCase()
         }
     }
 

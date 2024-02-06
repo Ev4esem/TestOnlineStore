@@ -12,4 +12,6 @@ sealed class Screen(
     object DiscountScreen : Screen("discount_screen")
     object CardScreen : Screen("card_screen")
     object DetailsScreen : Screen("details_screen")
+    object FavoriteScreen : Screen("favorite_screen")
+
 }

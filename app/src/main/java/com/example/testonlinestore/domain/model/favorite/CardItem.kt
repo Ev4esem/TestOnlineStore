@@ -17,5 +17,4 @@ data class CardItem(
     val unit: String,
     val subtitle: String,
     val title: String,
-    val image : Int
 )

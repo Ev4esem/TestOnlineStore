@@ -1,6 +1,9 @@
 package com.example.testonlinestore.view.profile_screen.component
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -135,6 +138,7 @@ fun UserData(
 fun FavoriteCard(
     count : Int,
     modifier : Modifier = Modifier,
+    navController : NavController
 ) {
 
     val nameFavorite = when {
@@ -147,14 +151,18 @@ fun FavoriteCard(
         mutableStateOf(nameFavorite)
     }
 
-    Surface(
+    Box(
         modifier = modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(10.dp))
             .padding(top = 24.dp)
+            .background(color = colorResource(R.color.light_grey_background))
+            .clickable {
+                  navController.navigate(Screen.FavoriteScreen.route)
+            }
         ,
-        color = colorResource(R.color.light_grey_background)
-    ) {
+
+        ) {
         Row(
             modifier = modifier
                 .padding(10.dp)
@@ -301,8 +309,8 @@ fun ContentProfile(
         }
         FavoriteCard(
             count = viewModel.count.value,
+            navController = navController
             )
-        //Spacer(modifier = modifier.padding(top = 8.dp))
         OtherCard(
             drawable = R.drawable.shop,
             text = R.string.shop,
@@ -310,7 +318,6 @@ fun ContentProfile(
             color = R.color.pink,
             modifier = Modifier.padding(top = 8.dp)
         )
-       // Spacer(modifier = modifier.padding(top = 8.dp))
         OtherCard(
             drawable = R.drawable.feedback,
             text = R.string.feedback,
@@ -318,7 +325,6 @@ fun ContentProfile(
             color = R.color.orange,
             modifier = Modifier.padding(top = 8.dp)
         )
-       // Spacer(modifier = modifier.padding(top = 8.dp))
         OtherCard(
             drawable = R.drawable.offer_icon,
             text = R.string.offer,

@@ -6,7 +6,7 @@ import javax.inject.Inject
 
 class ItemCountUseCase @Inject constructor(private val profileRepository : ProfileRepository) {
 
-    fun getItemCountFlow() : Flow<Int> {
+    suspend operator fun invoke() : Int {
         return profileRepository.getItemCountFlow()
     }
 
