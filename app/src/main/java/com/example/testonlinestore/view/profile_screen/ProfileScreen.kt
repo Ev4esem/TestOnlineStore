@@ -4,12 +4,15 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.testonlinestore.R
+import com.example.testonlinestore.view.bases.TopBarText
 import com.example.testonlinestore.view.profile_screen.component.ContentProfile
-import com.example.testonlinestore.view.profile_screen.component.TopBarText
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -19,14 +22,17 @@ fun ProfileScreen(
 ) {
     Box {
         Scaffold(
-            topBar = { TopBarText() },
+            topBar = { TopBarText(
+                text = R.string.personal_office,
+                style = MaterialTheme.typography.titleLarge,
+                modifier = Modifier.padding(20.dp)
+            ) },
             content = {
                 ContentProfile(
                     modifier = Modifier.padding(it),
                     navController = navController
                 )
             },
-            bottomBar = {  }
         )
     }
 }

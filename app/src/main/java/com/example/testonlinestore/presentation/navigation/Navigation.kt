@@ -39,12 +39,14 @@ fun Navigation(
 
             composable(route = Screen.CatalogScreen.route) {
                 CatalogScreen(navController = navController)
+                viewModel.isBottomNavBarVisible = true
             }
 
             composable(route = Screen.CardScreen.route) {
             }
             composable(route = Screen.FavoriteScreen.route) {
                 FavoriteScreen()
+                viewModel.isBottomNavBarVisible = true
             }
             composable(route = Screen.DiscountScreen.route) {
                 //DiscountScreen()
@@ -53,6 +55,7 @@ fun Navigation(
                 viewModel.isBottomNavBarVisible = false
                 val catalogId = backStackEntry.arguments?.getString(PRODUCT_ID)
                 DetailsScreen(navController = navController, catalogId = catalogId ?: "")
+
             }
 
             composable(

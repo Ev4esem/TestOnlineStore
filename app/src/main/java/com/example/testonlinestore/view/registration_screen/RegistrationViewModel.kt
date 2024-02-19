@@ -18,6 +18,7 @@ class RegistrationViewModel @Inject constructor(
     private val createUserUseCase : CreateUserUseCase
 ) : ViewModel() {
 
+    // todo Странно что она здесь
     var isBottomNavBarVisible by mutableStateOf(true)
 
      fun createUser(userAccount : UserAccount) = viewModelScope.launch {
