@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.android)
@@ -65,6 +67,8 @@ dependencies {
     implementation(libs.lifecycle.viewmodel.compose)
     implementation(libs.lifecycle.runtime.ktx)
 
+    //Lifecycle
+    implementation(libs.lifecycle.runtime.compose)
 
     //Compose
     implementation (libs.androidx.compose.runtime.livedata)
@@ -75,7 +79,8 @@ dependencies {
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
 
-
+    //Datastore Preferences
+    implementation(libs.androidx.datastore.preferences)
 
     //Retrofit
 

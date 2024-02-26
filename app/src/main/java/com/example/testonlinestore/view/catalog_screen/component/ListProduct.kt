@@ -5,15 +5,19 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
+import com.example.testonlinestore.domain.model.catalog.Catalog
 import com.example.testonlinestore.domain.model.catalog.CatalogList
 import com.example.testonlinestore.presentation.navigation.Screen
+import com.example.testonlinestore.view.catalog_screen.CatalogEvent
 
 @Composable
 fun ListProduct(
-    catalogItems : CatalogList,
-    navController : NavController,
-    key : Int
+    modifier : Modifier = Modifier,
+    catalogItems : List<Catalog>,
+    onEvent : (CatalogEvent) -> Unit,
+    navController : NavController
 ) {
 
     val listState = rememberLazyGridState()
@@ -24,11 +28,10 @@ fun ListProduct(
 
         content = {
             items(
-                items = catalogItems.items,
-                key = { catalog -> catalog.id + key }
+                items = catalogItems,
+                key = Catalog::id
             ) { catalog ->
                 Item(
-                    id = catalog.id,
                     title = catalog.title,
                     subtitle = catalog.subtitle,
                     price = catalog.price.price,
@@ -37,7 +40,15 @@ fun ListProduct(
                     rating = catalog.feedback.rating,
                     count = catalog.feedback.count,
                     discount = catalog.price.discount,
-                    onItemClick = { navController.navigate(Screen.DetailsScreen.route + "/${catalog.id}") }
+                    onItemClick = {
+                        onEvent(CatalogEvent.SelectedProduct(catalog.id))
+                        // todo
+                        navController.navigate(Screen.DetailsScreen.route)
+                    },
+                    onClickFavorite = {
+                        onEvent(CatalogEvent.ChangeFavorite(catalog))
+                    },
+                    isFavorite = catalog.favorite
                 )
             }
         },

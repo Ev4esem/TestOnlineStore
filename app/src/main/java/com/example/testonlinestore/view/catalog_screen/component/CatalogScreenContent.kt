@@ -1,32 +1,29 @@
 package com.example.testonlinestore.view.catalog_screen.component
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.testonlinestore.domain.model.catalog.CatalogList
-import com.example.testonlinestore.utils.ProgressBar
-import com.example.testonlinestore.utils.Resource
+import com.example.testonlinestore.view.catalog_screen.CatalogEvent
+import com.example.testonlinestore.view.catalog_screen.CatalogUiState
 import com.example.testonlinestore.view.catalog_screen.CatalogViewModel
+import com.example.testonlinestore.view.details_screen.DetailsScreen
 
 @Composable
 fun CatalogScreenContent(
-    navController : NavController,
-    viewModel : CatalogViewModel
+    uiState : CatalogUiState,
+    onEvent : (CatalogEvent) -> Unit,
+    navController : NavController
 ) {
 
-    val tagsState by viewModel.tags.collectAsState()
-    val catalogItemsState by viewModel.listProduct.collectAsState()
+
     val refreshKey = remember {
         mutableStateOf(0)
     }
@@ -41,7 +38,9 @@ fun CatalogScreenContent(
         ) {
 
             SortButton { sortOption ->
-                viewModel.sortCatalogProducts(sortOption)
+                onEvent(
+                    CatalogEvent.SelectSortCatalog(sortOption)
+                )
                 refreshKey.value++
             }
 
@@ -49,24 +48,50 @@ fun CatalogScreenContent(
 
         }
 
+        onEvent(CatalogEvent.SelectedTag(
+            tags = uiState.tags,
+            tag = uiState.selectedTag
+        ))
 
+//        TagList(
+//            tags = uiState.tags,
+//            selectedTag = uiState.selectedTag,
+//            onTagSelected = { selectedTag ->
+//                uiState.selectedTag = selectedTag
+//            }
+//        )
 
-        when(catalogItemsState) {
-
-            is Resource.Loading -> {
-                ProgressBar()
-            }
-            is Resource.Error -> {
-                Log.e("NetworkError", "Catalog items loading failed")
-            }
-            is Resource.Success -> {
-
-                val catalogItems = (catalogItemsState as? Resource.Success)?.data ?: CatalogList(emptyList())
-                ListProduct(catalogItems = catalogItems, navController = navController, key = refreshKey.value)
-            }
-
+    //    if (!uiState.catalogLoading && !uiState.favoriteCatalogLoading && uiState.products.isEmpty()) {
+            ListProduct(
+                catalogItems = uiState.products,
+                onEvent = onEvent,
+                navController = navController
+            )
+        }
+        uiState.selectedProduct?.let { selectedProduct ->
+            DetailsScreen(
+                available = selectedProduct.available,
+                description = selectedProduct.description,
+                feedback = selectedProduct.feedback,
+                info = selectedProduct.info,
+                ingredients = selectedProduct.ingredients,
+                price = selectedProduct.price,
+                subtitle = selectedProduct.subtitle,
+                title = selectedProduct.title,
+                loading = uiState.catalogDetailLoading,
+                error = uiState.errorCatalogDetail,
+                onClickBack = {
+                    onEvent(CatalogEvent.ClearSelectedCatalog)
+                },
+                onClickRetry = {
+                    onEvent(CatalogEvent.RefreshProductDetail(selectedProduct.id))
+                },
+                isFavorite = selectedProduct.favorite,
+                onClickFavorite = { onEvent(CatalogEvent.ChangeFavoriteDetail(selectedProduct)) }
+            )
         }
 
-    }
+
+  //  }
 
 }

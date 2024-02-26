@@ -39,10 +39,10 @@ fun FavoriteCard(
 ) {
 
     val nameFavorite = when {
-        count == 0 -> "товаров"
-        count == 1 -> "товар"
-        count < 4 -> "товара"
-        else -> "товаров"
+        count == 0 -> stringResource(id = R.string.itemov)
+        count == 1 -> stringResource(id = R.string.item)
+        count < 4 -> stringResource(id = R.string.itema)
+        else -> stringResource(id = R.string.itemov)
     }
     val nameState by remember {
         mutableStateOf(nameFavorite)

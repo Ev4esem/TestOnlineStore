@@ -1,6 +1,7 @@
 package com.example.testonlinestore.view.bases
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -27,12 +28,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.testonlinestore.R
-import com.example.testonlinestore.domain.model.favorite.CardItem
+import com.example.testonlinestore.data.database.models.CardItem
 import com.example.testonlinestore.view.catalog_screen.component.DescriptionItemText
 import com.example.testonlinestore.view.catalog_screen.component.DiscountText
 import com.example.testonlinestore.view.catalog_screen.component.FeedbackText
 import com.example.testonlinestore.view.catalog_screen.component.OldPriceText
 import com.example.testonlinestore.view.catalog_screen.component.PriceText
+import com.example.testonlinestore.view.details_screen.component.FavoriteButton
 import com.google.accompanist.pager.ExperimentalPagerApi
 
 
@@ -40,36 +42,18 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 @Composable
 fun ItemFavorite(
     modifier : Modifier = Modifier,
-    cardItem : CardItem
+    title : String,
+    subtitle : String,
+    price : String,
+    priceWithDiscount : String,
+    unit : String,
+    rating : Double,
+    count : Int,
+    discount : Int,
+    isFavorite : Boolean,
+    onItemClick : () -> Unit,
+    onClickFavorite: () -> Unit,
 ) {
-
-    val title by remember {
-        mutableStateOf(cardItem.title)
-    }
-
-    val subtitle by remember {
-        mutableStateOf(cardItem.subtitle)
-    }
-    val price by remember {
-        mutableStateOf(cardItem.price)
-    }
-    val priceWithDiscount by remember {
-        mutableStateOf(cardItem.priceWithDiscount)
-    }
-    val unit by remember {
-        mutableStateOf(cardItem.unit)
-    }
-    val rating by remember {
-        mutableStateOf(cardItem.rating)
-    }
-    val count by remember {
-        mutableStateOf(cardItem.count)
-    }
-    val discount by remember {
-        mutableStateOf(cardItem.discount)
-    }
-
-
 
     Card(
         modifier = modifier
@@ -87,7 +71,7 @@ fun ItemFavorite(
 
 
         Box() {
-            com.example.testonlinestore.view.catalog_screen.component.ViewPagerSlider()
+            ViewPagerSlider()
             Box(
                 modifier = modifier
                     .align(Alignment.TopEnd)
@@ -95,17 +79,10 @@ fun ItemFavorite(
 
             ) {
 
-                IconButton(
-
-                    onClick = { /*TODO*/ },
-                    modifier = modifier.align(Alignment.TopEnd)
-                ) {
-                    Icon(
-                        painter = painterResource(R.drawable.heart_icon),
-                        contentDescription = stringResource(R.string.favorite),
-                        tint = colorResource(id = R.color.pink)
-                    )
-                }
+                FavoriteButton(
+                    onClickFavorite = onClickFavorite,
+                    isFavorite = isFavorite
+                )
 
 
 
@@ -116,6 +93,9 @@ fun ItemFavorite(
 
 
         Box(
+            modifier = modifier.clickable {
+                onItemClick()
+            }
         ) {
             Column(
                 modifier = modifier
@@ -172,7 +152,7 @@ fun ItemFavorite(
                     Icon(
                         painter = painterResource(R.drawable.plus_icon),
                         tint = colorResource(R.color.white),
-                        contentDescription = "Add",
+                        contentDescription = stringResource(R.string.add),
 
                         )
 

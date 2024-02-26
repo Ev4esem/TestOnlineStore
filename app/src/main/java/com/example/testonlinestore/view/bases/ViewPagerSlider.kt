@@ -1,5 +1,6 @@
 package com.example.testonlinestore.view.bases
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,7 +21,8 @@ import com.google.accompanist.pager.rememberPagerState
 @ExperimentalPagerApi
 @Composable
 fun ViewPagerSlider(
-    viewModel : CatalogViewModel = hiltViewModel()
+    viewModel : CatalogViewModel = hiltViewModel(),
+    @SuppressLint("ModifierParameter") modifier : Modifier = Modifier
 ) {
     val imageProduct = viewModel.getImageProducts()
 
@@ -33,9 +35,7 @@ fun ViewPagerSlider(
     ) {
         HorizontalPager(
             state = pagerState,
-            modifier = Modifier
-                .width(355.dp)
-                .height(368.dp)
+            modifier = modifier
             ,
 
             ) { index ->

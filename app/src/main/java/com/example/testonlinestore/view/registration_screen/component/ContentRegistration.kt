@@ -1,6 +1,5 @@
 package com.example.testonlinestore.view.registration_screen.component
 
-import android.content.Context
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -11,7 +10,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -20,26 +19,24 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.testonlinestore.R
 import com.example.testonlinestore.domain.model.registration.UserAccount
-import com.example.testonlinestore.presentation.navigation.Screen
-import com.example.testonlinestore.utils.saveUserId
+import com.example.testonlinestore.presentation.navigation.navigateToProfile
 import com.example.testonlinestore.view.bases.InputEditText
-import com.example.testonlinestore.view.registration_screen.RegistrationViewModel
+import com.example.testonlinestore.view.registration_screen.RegistrationEvent
 
 
 @Composable
 fun ContentRegistration(
-    viewModel : RegistrationViewModel,
-    context : Context,
-    navController : NavController
+    navController : NavController,
+    onEvent : (RegistrationEvent) -> Unit
 ) {
 
-    var name by remember {
+    var name by rememberSaveable {
         mutableStateOf("")
     }
-    var surname by remember {
+    var surname by rememberSaveable {
         mutableStateOf("")
     }
-    var number by remember {
+    var number by rememberSaveable {
         mutableStateOf("")
     }
 
@@ -71,13 +68,17 @@ fun ContentRegistration(
             surname = surname,
             number = number,
             onCreateUserClick = {
-                viewModel.createUser(
-                    UserAccount(name = name, surname = surname, number = number.toLong())
+
+                onEvent(RegistrationEvent.LoginSuccess(
+                    UserAccount(
+                        name = name,
+                        surname = surname,
+                        number = number.toLong()
+                    )
                 )
-                saveUserId(context,number)
-                navController.navigate(
-                    route = Screen.ProfileScreen.route
-                )
+            )
+                onEvent(RegistrationEvent.SaveUserId(number))
+                navController.navigateToProfile()
 
             }
         )

@@ -33,12 +33,20 @@
     <string name="price_high_to_low">По уменьшению цены</string>
     <string name="filters">Фильтры</string>
     <string name="description">Описание</string>
+    <string name="items">Товары</string>
+    <string name="brand">Бренды</string>
+
+    // inflection item
+    <string name="itemov">Товаров</string>
+    <string name="item">Товар</string>
+    <string name="itema">Товара</string>
 
 
-
-//Content description
+    // Content description
     <string name="clear_input">Очистить ввод</string>
-
+    <string name="no_connection">Нет подключения к интернету</string>
+    <string name="repeat">Повторить</string>
+    <string name="add">Добавить</string>
 
 
 </resources>

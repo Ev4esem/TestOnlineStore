@@ -1,42 +1,31 @@
 package com.example.testonlinestore.view.profile_screen.component
 
-import androidx.annotation.ColorRes
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.testonlinestore.R
-import com.example.testonlinestore.presentation.navigation.Screen
+import com.example.testonlinestore.presentation.navigation.navigateToRegistration
 import com.example.testonlinestore.view.bases.OtherCard
-import com.example.testonlinestore.view.profile_screen.ProfileViewModel
-
-
-
-
-
+import com.example.testonlinestore.view.profile_screen.ProfileEvent
+import com.example.testonlinestore.view.profile_screen.ProfileUiState
 
 
 @Composable
 fun ContentProfile(
     modifier : Modifier = Modifier,
-    viewModel : ProfileViewModel = hiltViewModel(),
+    onEvent : (ProfileEvent) -> Unit,
+    uiState : ProfileUiState,
     navController : NavController
-    ) {
-    val accountState by viewModel.account.collectAsState(initial = null)
+) {
+
 
     val scrollState = rememberScrollState()
 
@@ -46,13 +35,10 @@ fun ContentProfile(
             .padding(5.dp)
             .verticalScroll(scrollState),
     ) {
-        accountState?.let {
-            UserDataCard(
-                it
-            )
-        }
+
+        uiState.accountData?.let { UserDataCard(userData = it) }
         FavoriteCard(
-            count = viewModel.count.value,
+            count = uiState.countFavoriteList,
             navController = navController
             )
         OtherCard(
@@ -87,10 +73,8 @@ fun ContentProfile(
 
         ButtonExit(
             onCreateUserClick = {
-                navController.navigate(
-                    route = Screen.RegistrationScreen.route
-                )
-                viewModel.removeUser()
+                navController.navigateToRegistration()
+                onEvent(ProfileEvent.DeleteProfile)
 
             }
         )

@@ -21,8 +21,7 @@ import com.example.testonlinestore.view.registration_screen.component.ContentReg
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LogInScreen(
-    viewModel : RegistrationViewModel = hiltViewModel(),
-    context : Context,
+    onEvent : (RegistrationEvent) -> Unit,
     navController : NavController
 ) {
     Box {
@@ -37,8 +36,7 @@ fun LogInScreen(
             ) },
             content = {
                 ContentRegistration(
-                    viewModel = viewModel,
-                    context = context,
+                    onEvent = onEvent,
                     navController = navController)
             },
             bottomBar = { BottomBarText() }

@@ -19,6 +19,8 @@ import com.example.testonlinestore.view.profile_screen.component.ContentProfile
 @Composable
 fun ProfileScreen(
     navController : NavController,
+    onEvent : (ProfileEvent) -> Unit,
+    uiState : ProfileUiState
 ) {
     Box {
         Scaffold(
@@ -30,7 +32,9 @@ fun ProfileScreen(
             content = {
                 ContentProfile(
                     modifier = Modifier.padding(it),
-                    navController = navController
+                    navController = navController,
+                    onEvent = onEvent,
+                    uiState = uiState
                 )
             },
         )

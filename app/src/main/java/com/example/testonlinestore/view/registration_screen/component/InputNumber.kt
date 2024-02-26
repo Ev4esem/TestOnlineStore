@@ -52,6 +52,7 @@ fun InputNumber(
 
         },
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
+        // todo Add in resource
         label = {
             Text("Номер телефона")
         },

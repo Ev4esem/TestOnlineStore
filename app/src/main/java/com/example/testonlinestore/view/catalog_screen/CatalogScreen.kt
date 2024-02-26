@@ -11,13 +11,18 @@ import com.example.testonlinestore.view.catalog_screen.component.TopBarText
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun CatalogScreen(
-    viewModel : CatalogViewModel = hiltViewModel(),
+    uiState : CatalogUiState,
+    onEvent : (CatalogEvent) -> Unit,
     navController : NavController
 ) {
     Scaffold(
         topBar = { TopBarText() },
         content = {
-           CatalogScreenContent(navController = navController, viewModel = viewModel)
+           CatalogScreenContent(
+               uiState = uiState,
+               onEvent = onEvent,
+               navController
+           )
         },
         bottomBar = {}
     )
