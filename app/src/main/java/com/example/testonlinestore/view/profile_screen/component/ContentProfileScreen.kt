@@ -1,5 +1,6 @@
 package com.example.testonlinestore.view.profile_screen.component
 
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
@@ -12,6 +13,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.testonlinestore.R
+import com.example.testonlinestore.domain.model.registration.UserAccount
 import com.example.testonlinestore.presentation.navigation.navigateToRegistration
 import com.example.testonlinestore.view.bases.OtherCard
 import com.example.testonlinestore.view.profile_screen.ProfileEvent
@@ -36,7 +38,14 @@ fun ContentProfile(
             .verticalScroll(scrollState),
     ) {
 
-        uiState.accountData?.let { UserDataCard(userData = it) }
+
+        uiState.accountData?.let { userData ->
+
+            UserDataCard(userData = userData)
+
+        }
+
+        Log.d("USER_ID", "${ uiState.accountData }")
         FavoriteCard(
             count = uiState.countFavoriteList,
             navController = navController

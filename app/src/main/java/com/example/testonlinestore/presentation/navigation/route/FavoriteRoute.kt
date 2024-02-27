@@ -75,7 +75,8 @@ fun FavoriteRoute(
             },
             onClickRetry = {
                 viewModel.obtainEvent(FavoriteEvent.RefreshProductDetail(selectedCatalog.id))
-            }
+            },
+            imageProducts = uiState.imageProducts
         )
 
         }

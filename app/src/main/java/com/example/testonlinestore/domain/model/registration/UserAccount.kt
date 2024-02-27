@@ -2,7 +2,6 @@ package com.example.testonlinestore.domain.model.registration
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.util.UUID
 
 
 @Entity(tableName = "user_account")

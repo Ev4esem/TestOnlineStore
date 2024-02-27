@@ -1,5 +1,6 @@
 package com.example.testonlinestore.view.registration_screen.component
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -78,6 +79,7 @@ fun ContentRegistration(
                 )
             )
                 onEvent(RegistrationEvent.SaveUserId(number))
+                Log.d("USER_ID",number)
                 navController.navigateToProfile()
 
             }

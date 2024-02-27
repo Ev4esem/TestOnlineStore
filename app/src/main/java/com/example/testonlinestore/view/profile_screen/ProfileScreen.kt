@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.testonlinestore.R
+import com.example.testonlinestore.presentation.bottom_navigation_bar.BottomNavigationBar
 import com.example.testonlinestore.view.bases.TopBarText
 import com.example.testonlinestore.view.profile_screen.component.ContentProfile
 

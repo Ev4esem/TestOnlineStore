@@ -11,6 +11,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.testonlinestore.view.bases.StoreEmptyList
+import com.example.testonlinestore.view.bases.StoreErrorScreen
+import com.example.testonlinestore.view.bases.StoreLoadingScreen
 import com.example.testonlinestore.view.catalog_screen.CatalogEvent
 import com.example.testonlinestore.view.catalog_screen.CatalogUiState
 import com.example.testonlinestore.view.catalog_screen.CatalogViewModel
@@ -23,10 +26,6 @@ fun CatalogScreenContent(
     navController : NavController
 ) {
 
-
-    val refreshKey = remember {
-        mutableStateOf(0)
-    }
 
     Column {
         Row(
@@ -41,7 +40,6 @@ fun CatalogScreenContent(
                 onEvent(
                     CatalogEvent.SelectSortCatalog(sortOption)
                 )
-                refreshKey.value++
             }
 
             FilterButton()
@@ -53,19 +51,32 @@ fun CatalogScreenContent(
             tag = uiState.selectedTag
         ))
 
-//        TagList(
-//            tags = uiState.tags,
-//            selectedTag = uiState.selectedTag,
-//            onTagSelected = { selectedTag ->
-//                uiState.selectedTag = selectedTag
-//            }
-//        )
+        TagList(
+            tags = uiState.tags,
+            selectedTag = uiState.selectedTag,
+            onTagSelected = { selectedTag ->
+                uiState.selectedTag = selectedTag
+            }
+        )
 
-    //    if (!uiState.catalogLoading && !uiState.favoriteCatalogLoading && uiState.products.isEmpty()) {
+        if (!uiState.error.isNullOrBlank()) {
+            StoreErrorScreen(
+                errorText = uiState.error.toString(),
+                onClickRetry = {
+                    onEvent(CatalogEvent.RefreshData)
+                }
+            )
+        } else if (uiState.catalogLoading) {
+            StoreLoadingScreen()
+        } else if (!uiState.catalogLoading && uiState.products.isEmpty()) {
+            StoreEmptyList()
+        } else {
             ListProduct(
                 catalogItems = uiState.products,
                 onEvent = onEvent,
-                navController = navController
+                navController = navController,
+                imageProducts = uiState.imageProducts,
+                sortOption = uiState.sortOption
             )
         }
         uiState.selectedProduct?.let { selectedProduct ->
@@ -87,11 +98,12 @@ fun CatalogScreenContent(
                     onEvent(CatalogEvent.RefreshProductDetail(selectedProduct.id))
                 },
                 isFavorite = selectedProduct.favorite,
-                onClickFavorite = { onEvent(CatalogEvent.ChangeFavoriteDetail(selectedProduct)) }
+                onClickFavorite = { onEvent(CatalogEvent.ChangeFavoriteDetail(selectedProduct)) },
+                imageProducts = uiState.imageProducts
             )
         }
 
 
-  //  }
+    }
 
 }

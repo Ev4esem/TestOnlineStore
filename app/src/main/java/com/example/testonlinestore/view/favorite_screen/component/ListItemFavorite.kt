@@ -8,6 +8,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.testonlinestore.data.database.models.CardItem
+import com.example.testonlinestore.domain.model.ImageProduct
 import com.example.testonlinestore.domain.model.catalog.Catalog
 import com.example.testonlinestore.view.bases.ItemFavorite
 import com.example.testonlinestore.view.catalog_screen.CatalogEvent
@@ -18,7 +20,8 @@ import com.example.testonlinestore.view.favorite_screen.FavoriteViewModel
 @Composable
 fun ListItemFavorite(
     catalog : List<Catalog>,
-    onEvent : (FavoriteEvent) -> Unit
+    onEvent : (FavoriteEvent) -> Unit,
+    imageProducts : List<ImageProduct>
 ) {
 
 
@@ -45,7 +48,8 @@ fun ListItemFavorite(
                     onClickFavorite = {
                         onEvent(FavoriteEvent.ChangeFavorite(catalog))
                     },
-                    isFavorite = catalog.favorite
+                    isFavorite = catalog.favorite,
+                    imageProducts = imageProducts
                 )
             }
         },

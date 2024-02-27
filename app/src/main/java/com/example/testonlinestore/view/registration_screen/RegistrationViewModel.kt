@@ -1,5 +1,6 @@
 package com.example.testonlinestore.view.registration_screen
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.testonlinestore.domain.model.registration.UserAccount
@@ -27,6 +28,7 @@ class RegistrationViewModel @Inject constructor(
     fun saveUserId(userId : String) {
         viewModelScope.launch {
             dataStoreManager.saveUserId(userId)
+            Log.d("USER_ID",userId)
         }
     }
 

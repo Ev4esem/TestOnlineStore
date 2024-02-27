@@ -35,7 +35,8 @@ fun FavoriteContent(
 
         ListItemFavorite(
                 catalog = uiState.favoriteList,
-                onEvent = onEvent
+                onEvent = onEvent,
+                imageProducts = uiState.imageProducts
             )
         }
         uiState.selectedProduct?.let { selectedProduct ->
@@ -57,7 +58,9 @@ fun FavoriteContent(
                     onEvent(FavoriteEvent.RefreshProductDetail(selectedProduct.id))
                 },
                 isFavorite = selectedProduct.favorite,
-                onClickFavorite = { onEvent(FavoriteEvent.ChangeFavoriteDetail(selectedProduct)) }
+                onClickFavorite = { onEvent(FavoriteEvent.ChangeFavoriteDetail(selectedProduct)) },
+                imageProducts = uiState.imageProducts
+
             )
         }
     }

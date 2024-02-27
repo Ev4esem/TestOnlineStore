@@ -75,7 +75,8 @@ fun CatalogRoute(
             },
             onClickRetry = {
                 viewModel.obtainEvent(CatalogEvent.RefreshProductDetail(selectedCatalog.id))
-            }
+            },
+            imageProducts = uiState.imageProducts
         )
 
     }

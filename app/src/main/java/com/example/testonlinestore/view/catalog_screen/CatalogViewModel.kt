@@ -80,6 +80,7 @@ class CatalogViewModel @Inject constructor(
 
     init {
         getProducts()
+        getImageProducts()
     }
 
     private fun clearSelectedProduct() {
@@ -238,9 +239,12 @@ class CatalogViewModel @Inject constructor(
         }
     }
 
-    fun getImageProducts() : List<ImageProduct> {
-
-        return getImageProductUseCase()
+    fun getImageProducts() {
+        _productsUiState.update { currentState ->
+            currentState.copy(
+                imageProducts = getImageProductUseCase()
+            )
+        }
     }
 
     fun filterCatalogByTags(products : List<Catalog>,tag : String) {
@@ -292,6 +296,7 @@ data class CatalogUiState(
     val favoriteCatalogLoading : Boolean = false,
     val catalogDetailLoading : Boolean = false,
     val error : String? = null,
+    val imageProducts : List<ImageProduct> = listOf(),
     val tags : List<Catalog> = emptyList(),
     val errorCatalogDetail : String? = null,
     var selectedTag : String = "",

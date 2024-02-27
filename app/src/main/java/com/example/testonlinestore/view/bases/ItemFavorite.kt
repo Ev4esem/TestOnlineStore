@@ -29,6 +29,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.testonlinestore.R
 import com.example.testonlinestore.data.database.models.CardItem
+import com.example.testonlinestore.domain.model.ImageProduct
 import com.example.testonlinestore.view.catalog_screen.component.DescriptionItemText
 import com.example.testonlinestore.view.catalog_screen.component.DiscountText
 import com.example.testonlinestore.view.catalog_screen.component.FeedbackText
@@ -50,6 +51,7 @@ fun ItemFavorite(
     rating : Double,
     count : Int,
     discount : Int,
+    imageProducts : List<ImageProduct>,
     isFavorite : Boolean,
     onItemClick : () -> Unit,
     onClickFavorite: () -> Unit,
@@ -71,7 +73,9 @@ fun ItemFavorite(
 
 
         Box() {
-            ViewPagerSlider()
+            ViewPagerSlider(
+                imageProducts = imageProducts
+            )
             Box(
                 modifier = modifier
                     .align(Alignment.TopEnd)

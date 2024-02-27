@@ -26,6 +26,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.testonlinestore.R
+import com.example.testonlinestore.domain.model.ImageProduct
 import com.example.testonlinestore.domain.model.catalog.Feedback
 import com.example.testonlinestore.domain.model.catalog.Info
 import com.example.testonlinestore.domain.model.catalog.Price
@@ -47,6 +48,7 @@ fun ContentDetailsScreen(
     price : Price,
     subtitle : String,
     title : String,
+    imageProducts : List<ImageProduct>,
     isFavorite : Boolean,
     onClickFavorite : () -> Unit,
     onClickBack : () -> Unit
@@ -80,7 +82,8 @@ fun ContentDetailsScreen(
             ViewPagerSlider(
                 modifier = Modifier
                     .width(355.dp)
-                    .height(368.dp)
+                    .height(368.dp),
+                imageProducts = imageProducts
             )
 
             Box(

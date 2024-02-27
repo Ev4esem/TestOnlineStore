@@ -12,6 +12,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.testonlinestore.domain.model.ImageProduct
+import com.example.testonlinestore.view.catalog_screen.CatalogUiState
 import com.example.testonlinestore.view.catalog_screen.CatalogViewModel
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
@@ -21,14 +23,12 @@ import com.google.accompanist.pager.rememberPagerState
 @ExperimentalPagerApi
 @Composable
 fun ViewPagerSlider(
-    viewModel : CatalogViewModel = hiltViewModel(),
+    imageProducts : List<ImageProduct>,
     @SuppressLint("ModifierParameter") modifier : Modifier = Modifier
 ) {
-    val imageProduct = viewModel.getImageProducts()
-
 
     val pagerState = rememberPagerState(
-        pageCount = imageProduct.size,
+        pageCount = imageProducts.size,
         initialPage = 0
     )
     Box(
@@ -40,9 +40,9 @@ fun ViewPagerSlider(
 
             ) { index ->
 
-            if (index in imageProduct.indices) {
+            if (index in imageProducts.indices) {
                 Image(
-                    painter = painterResource(id = imageProduct[index].image),
+                    painter = painterResource(id = imageProducts[index].image),
                     contentDescription = null,
                     contentScale = ContentScale.Crop,
                     modifier = Modifier.fillMaxSize()

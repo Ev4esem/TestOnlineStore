@@ -35,6 +35,7 @@
     <string name="description">Описание</string>
     <string name="items">Товары</string>
     <string name="brand">Бренды</string>
+    <string name="not_found">Не найдено</string>
 
     // inflection item
     <string name="itemov">Товаров</string>

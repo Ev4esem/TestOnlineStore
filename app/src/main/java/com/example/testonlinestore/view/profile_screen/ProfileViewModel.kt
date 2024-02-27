@@ -1,5 +1,7 @@
 package com.example.testonlinestore.view.profile_screen
 
+import android.annotation.SuppressLint
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.testonlinestore.data.database.models.CardItem
@@ -15,6 +17,8 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -54,15 +58,13 @@ class ProfileViewModel @Inject constructor (
 
     init {
         countFavoriteItems()
+        getNumber()
     }
 
     override fun obtainEvent(event : ProfileEvent) {
         when(event) {
             is ProfileEvent.DeleteProfile -> {
                 removeUser()
-            }
-            is ProfileEvent.SelectProfile -> {
-                getNumber()
             }
         }
     }
@@ -81,30 +83,39 @@ class ProfileViewModel @Inject constructor (
     private fun getNumber() {
 
         viewModelScope.launch {
-            val userId = dataStore.userIdFlow.firstOrNull()
-            val userAccountFlow = getUserAccountUseCase(userId.toString())
-            _productsUiState.update { currentState ->
-                currentState.copy(
-                    accountData = userAccountFlow.firstOrNull()
-                )
+            dataStore.userIdFlow.collect { userId ->
+                if (userId.isNotEmpty()) {
+                    val userAccountFlow = getUserAccountUseCase(userId)
+
+                    _productsUiState.update { currentState ->
+                        currentState.copy(
+                            accountData = userAccountFlow.firstOrNull()
+                        )
+                    }
+                    Log.d("USER_ID", "${ userAccountFlow.first() }")
+
+                }
             }
         }
-
     }
 
+    @SuppressLint("SuspiciousIndentation")
     private fun removeUser() {
 
-         viewModelScope.launch {
-            // todo NumberFormatException
-             dataStore.saveUserId("")
-             val userId = dataStore.userIdFlow.firstOrNull()
-             val userAccount = removeAccountUseCase(userId.toString())
-             _productsUiState.update {  currentState ->
-                 currentState.copy(
-                     userId = userAccount
-                 )
+     viewModelScope.launch {
+
+         val userId = dataStore.userIdFlow.first()
+             if (userId.isNotEmpty()) {
+
+                 val userAccount = removeAccountUseCase(userId)
+                 _productsUiState.update {  currentState ->
+                     currentState.copy(
+                         userId = userAccount
+                     )
+                 }
              }
-         }
+         dataStore.saveUserId("")
+        }
     }
 
 }
@@ -124,9 +135,5 @@ sealed interface ProfileEffect {
 sealed interface ProfileEvent {
 
     object DeleteProfile : ProfileEvent
-
-    data class SelectProfile(
-        val userAccount : UserAccount
-    ) : ProfileEvent
 
 }

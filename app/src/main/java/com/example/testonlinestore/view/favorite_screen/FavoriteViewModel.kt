@@ -2,8 +2,11 @@ package com.example.testonlinestore.view.favorite_screen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.testonlinestore.data.database.models.CardItem
+import com.example.testonlinestore.domain.model.ImageProduct
 import com.example.testonlinestore.domain.model.catalog.Catalog
 import com.example.testonlinestore.domain.model.catalog.CatalogDetail
+import com.example.testonlinestore.domain.use_case.catalog.GetImageProductUseCase
 import com.example.testonlinestore.domain.use_case.catalog.GetProductDetailUseCase
 import com.example.testonlinestore.domain.use_case.catalog.SetFavoriteDetailUseCase
 import com.example.testonlinestore.domain.use_case.catalog.SetFavoriteUseCase
@@ -27,7 +30,7 @@ class FavoriteViewModel @Inject constructor(
     private val setFavoriteUseCase : SetFavoriteUseCase,
     private val getProductDetailUSeCase : GetProductDetailUseCase,
     private val setFavoriteDetailUseCase : SetFavoriteDetailUseCase,
-
+    private val getImageProductUseCase : GetImageProductUseCase
 ) : ViewModel(), EffectHandler<FavoriteEffect>, EventHandler<FavoriteEvent> {
 
     private var _productsUiState = MutableStateFlow(FavoriteUiState())
@@ -58,6 +61,19 @@ class FavoriteViewModel @Inject constructor(
 
     init {
         getCardProducts()
+        getImageProducts()
+
+
+    }
+
+    private fun getImageProducts() {
+
+        _productsUiState.update { currentState ->
+            currentState.copy(
+                imageProducts = getImageProductUseCase()
+            )
+        }
+
     }
 
     private fun getCardProducts() {
@@ -120,6 +136,8 @@ class FavoriteViewModel @Inject constructor(
         }
     }
 
+
+
     fun getProductDetail(id : String) {
         viewModelScope.launch {
             getProductDetailUSeCase(
@@ -180,9 +198,10 @@ class FavoriteViewModel @Inject constructor(
 
 data class FavoriteUiState(
     val productLoading : Boolean = false,
-    val favoriteList : List<Catalog> = emptyList(),
+    val favoriteList : List<Catalog> = listOf(),
     val selectedProduct : CatalogDetail? = null,
     val errorCatalogDetail : String? = null,
+    val imageProducts : List<ImageProduct> = listOf(),
     val catalogDetailLoading : Boolean = false,
     val error : String? = null
 )
@@ -199,7 +218,7 @@ sealed interface FavoriteEvent {
     ) : FavoriteEvent
 
     data class RefreshProductDetail(val id : String) : FavoriteEvent
-
+    // todo Изменил на CardItem
     data class ChangeFavorite(
         val catalog : Catalog
     ) : FavoriteEvent

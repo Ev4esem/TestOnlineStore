@@ -5,6 +5,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
+import com.example.testonlinestore.domain.model.ImageProduct
 import com.example.testonlinestore.domain.model.catalog.Feedback
 import com.example.testonlinestore.domain.model.catalog.Info
 import com.example.testonlinestore.domain.model.catalog.Price
@@ -29,6 +30,7 @@ fun DetailsScreen(
     error : String?,
     isFavorite : Boolean,
     onClickFavorite : () -> Unit,
+    imageProducts : List<ImageProduct>,
     onClickBack : () -> Unit,
     onClickRetry : () -> Unit
 ) {
@@ -56,7 +58,8 @@ fun DetailsScreen(
                     title = title,
                     onClickBack = onClickBack,
                     isFavorite = isFavorite,
-                    onClickFavorite = onClickFavorite
+                    onClickFavorite = onClickFavorite,
+                    imageProducts = imageProducts
                 )
             }
 

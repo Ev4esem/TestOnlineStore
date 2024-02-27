@@ -2,10 +2,8 @@
 
 package com.example.testonlinestore.view.catalog_screen.component
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -29,6 +27,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.testonlinestore.R
+import com.example.testonlinestore.domain.model.ImageProduct
 import com.example.testonlinestore.view.bases.ViewPagerSlider
 import com.example.testonlinestore.view.details_screen.component.FavoriteButton
 import com.google.accompanist.pager.ExperimentalPagerApi
@@ -45,16 +44,16 @@ fun Item(
     count : Int,
     discount : Int,
     isFavorite : Boolean,
+    imageProducts : List<ImageProduct>,
     onItemClick : () -> Unit,
-    onClickFavorite: () -> Unit,
+    onClickFavorite : () -> Unit,
 ) {
 
     Card(
         modifier = modifier
             .padding(8.dp)
             .height(292.dp)
-            .width(168.dp)
-        ,
+            .width(168.dp),
         shape = RoundedCornerShape(8.dp),
         elevation = CardDefaults.cardElevation(5.dp),
         colors = CardDefaults.cardColors(
@@ -63,103 +62,96 @@ fun Item(
     ) {
 
 
-
-    Box {
-        ViewPagerSlider(
-            modifier = modifier
-                .width(168.dp)
-                .height(144.dp)
-        )
-        Box(
-            modifier = modifier
-                .align(Alignment.TopEnd)
-                .fillMaxWidth()
-
-        ) {
-
-            FavoriteButton(
-                onClickFavorite = onClickFavorite,
-                isFavorite = isFavorite,
-                modifier = modifier.align(Alignment.TopEnd)
-                )
-
-
-        }
-
-
-
-        }
-
-    }
-
-
-
-    Box(
-        modifier = modifier.clickable {
-            onItemClick()
-        }
-
-    ) {
-        Column(
-            modifier = modifier
-                .padding(start = 5.dp)
-                .fillMaxSize()
-            ,
-            verticalArrangement = Arrangement.Bottom
-        ) {
-            OldPriceText(
-                priceWithDiscount = priceWithDiscount,
-                unit = unit
+        Box {
+            ViewPagerSlider(
+                modifier = modifier
+                    .width(168.dp)
+                    .height(144.dp),
+                imageProducts = imageProducts
             )
+            Box(
+                modifier = modifier
+                    .align(Alignment.TopEnd)
+                    .fillMaxWidth()
 
+            ) {
 
-            Row {
-
-                PriceText(
-                    price = price,
-                    unit = unit
-                )
-                Spacer(modifier = modifier.width(5.dp))
-                DiscountText(
-                    discount = discount
+                FavoriteButton(
+                    onClickFavorite = onClickFavorite,
+                    isFavorite = isFavorite,
+                    modifier = modifier.align(Alignment.TopEnd)
                 )
 
 
             }
 
 
-            DescriptionItemText(
-                title = title,
-                subtitle = subtitle
-            )
-            Spacer(modifier = modifier.height(6.dp))
-            FeedbackText(
-                count = count,
-                rating = rating
-            )
+        }
 
-            Box(
+
+        Box(
+            modifier = modifier.clickable {
+                onItemClick()
+            }
+
+        ) {
+            Column(
                 modifier = modifier
-                    .align(Alignment.End)
-                    .background(
-                        color = colorResource(id = R.color.pink),
-                        shape = RoundedCornerShape(topStart = 8.dp, bottomEnd = 8.dp)
-                    )
-                    .height(32.dp)
-                    .width(32.dp)
-
-                ,
-                contentAlignment = Alignment.Center
+                    .padding(start = 5.dp)
+                    .fillMaxSize(),
+                verticalArrangement = Arrangement.Bottom
             ) {
+                OldPriceText(
+                    priceWithDiscount = priceWithDiscount,
+                    unit = unit
+                )
 
-                Icon(
-                    painter = painterResource(R.drawable.plus_icon),
-                    tint = colorResource(R.color.white),
-                    // todo Добавить ресурс
-                    contentDescription = stringResource(id = R.string.add),
 
+                Row {
+
+                    PriceText(
+                        price = price,
+                        unit = unit
+                    )
+                    Spacer(modifier = modifier.width(5.dp))
+                    DiscountText(
+                        discount = discount
                     )
 
+
+                }
+
+
+                DescriptionItemText(
+                    title = title,
+                    subtitle = subtitle
+                )
+                Spacer(modifier = modifier.height(6.dp))
+                FeedbackText(
+                    count = count,
+                    rating = rating
+                )
+
+                Box(
+                    modifier = modifier
+                        .align(Alignment.End)
+                        .background(
+                            color = colorResource(id = R.color.pink),
+                            shape = RoundedCornerShape(topStart = 8.dp, bottomEnd = 8.dp)
+                        )
+                        .height(32.dp)
+                        .width(32.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+
+                    Icon(
+                        painter = painterResource(R.drawable.plus_icon),
+                        tint = colorResource(R.color.white),
+                        contentDescription = stringResource(id = R.string.add),
+
+                        )
+
+                }
             }
         }
     }
@@ -167,12 +159,9 @@ fun Item(
 }
 
 
-
-
 @Preview
 @Composable
 fun PrevCatalog() {
-
 
 
     Column {
@@ -186,9 +175,16 @@ fun PrevCatalog() {
             count = 59,
             discount = 34,
             isFavorite = false,
-            onItemClick = {  }) {
-            
-        }
+            onItemClick = { },
+            imageProducts = listOf(
+                ImageProduct(
+                    R.drawable.image_product
+                )
+            ),
+            onClickFavorite = {
+
+            }
+        )
 
 
         Spacer(modifier = Modifier.height(20.dp))

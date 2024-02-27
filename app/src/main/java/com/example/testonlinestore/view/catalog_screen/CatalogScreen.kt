@@ -21,7 +21,7 @@ fun CatalogScreen(
            CatalogScreenContent(
                uiState = uiState,
                onEvent = onEvent,
-               navController
+               navController = navController
            )
         },
         bottomBar = {}
